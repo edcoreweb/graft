@@ -6,53 +6,61 @@ export default {
     return {
       grafts: [
         {
-          name: 'g-panel',
-          scopedSlots: {
-            title: () => 'Some awesome title.',
-            content: () => 'Panel extra content'
-          },
+          name: 'g-navbar',
+        },
+        {
+          name: 'g-container',
           grafts: [
             {
-              name: 'g-button',
-              on: {
-                click: (e, me) => {
-                  me.find('modal').show()
-                }
-              },
-            },
-            {
-              lookup: 'modal',
-              name: 'g-modal',
+              name: 'g-panel',
               scopedSlots: {
-                title: () => 'Some awesome modal.',
-                body: () => 'Some extra content'
+                title: () => 'Some awesome title.',
+                content: () => 'Panel extra content'
               },
               grafts: [
                 {
                   name: 'g-button',
-                  slot: 'footer',
                   on: {
                     click: (e, me) => {
-                      // me.$parent.hide();
-                      me.find('modal').hide()
+                      me.find('modal').show()
                     }
                   },
                 },
+                {
+                  lookup: 'modal',
+                  name: 'g-modal',
+                  scopedSlots: {
+                    title: () => 'Some awesome modal.',
+                    body: () => 'Some extra content'
+                  },
+                  grafts: [
+                    {
+                      name: 'g-button',
+                      slot: 'footer',
+                      on: {
+                        click: (e, me) => {
+                          // me.$parent.hide();
+                          me.find('modal').hide()
+                        }
+                      },
+                    },
+                  ]
+                }
+              ]
+            },
+            {
+              name: 'g-panel',
+              scopedSlots: {
+                title: () => 'Some awesome title.',
+                content: () => 'Panel extra content'
+              },
+              grafts: [
+                {name: 'g-alert'},
+                {name: 'g-alert'},
               ]
             }
           ]
         },
-        {
-          name: 'g-panel',
-          scopedSlots: {
-            title: () => 'Some awesome title.',
-            content: () => 'Panel extra content'
-          },
-          grafts: [
-            {name: 'g-alert'},
-            {name: 'g-alert'},
-          ]
-        }
         // {
         //   name: 'g-panel',
         //   scopedSlots: {
