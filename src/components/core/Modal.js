@@ -25,11 +25,8 @@ export default {
           </div>
           <div class="modal-body">
             <slot name="body"></slot>
-            <slot name="grafts">
-              <g-renderer v-for="graft in grafts" :key="graft.name" :config="graft"></g-renderer>
-            </slot>
           </div>
-          <div v-if="$slots.footer" class="modal-footer">
+          <div class="modal-footer">
             <slot name="footer"></slot>
           </div>
         </slot>

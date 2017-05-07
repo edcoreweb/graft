@@ -1,25 +1,66 @@
 export default {
   props: {
-    config: {
-      type: Object,
+    grafts: {
+      type: Array,
       required: true
     },
   },
 
   render (createElement) {
-    const data = Object.assign({}, this.config)
-
+    // console.log(this.renderGraftTree(this.grafts, createElement));
     return createElement(
-      data.name,
-      data,
-      this.$slots.default
-    );
+      'div',
+      this.renderGraftTree(this.grafts, createElement)
+    )
   },
 
-  mounted () {
-    // render the children grafts
-    if (this.config.hasOwnProperty('grafts')) {
-      this.$children[0].grafts = Object.assign({}, this.config.grafts)
+  methods: {
+    renderGraftTree (grafts, createElement) {
+
+      return grafts.map(graft => {
+          return this.renderGraftNode(graft, createElement);
+        })
+    },
+
+    renderGraftNode (graft, createElement) {
+      if (graft.lookup) {
+        graft['props'] = graft['props'] || {}
+        graft['props']['lookup'] = graft.lookup
+      }
+
+      const _graft = {
+        ...graft,
+        ...this.getScopedSlots(graft.scopedSlots || {}, graft.grafts, createElement)
+      }
+
+      return createElement(
+        graft.name,
+        _graft,
+      )
+    },
+
+    getScopedSlots (slots, grafts, createElement) {
+      let ret = {
+        scopedSlots: {...slots}
+      }
+
+      if (grafts) {
+        const slots = this.groupBy(grafts, 'slot');
+        // console.log(slots)
+        Object.keys(slots).forEach(slot => {
+          ret.scopedSlots[slot && slot !== 'undefined' ? slot : 'default'] = () => this.renderGraftTree(slots[slot], createElement)
+          // ret.scopedSlots[el.slot ? el.slot : 'default'] = () => 'asd'
+        })
+      }
+
+      return ret;
+    },
+
+    groupBy (array, key) {
+      return array.reduce((rv, x) => {
+        (rv[x[key]] = rv[x[key]] || []).push(x);
+        return rv;
+      }, {});
     }
   }
 }

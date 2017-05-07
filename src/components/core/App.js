@@ -6,9 +6,8 @@ export default {
   mixins: [Graftable],
   template: `
     <div class="container">
-    asd
       <slot name="grafts">
-        <g-renderer v-for="graft in grafts" :key="graft.name" :config="graft"></g-renderer>
+        <g-renderer :grafts="grafts"></g-renderer>
       </slot>
     </div>
   `

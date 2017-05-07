@@ -1,7 +1,8 @@
 export default {
-  data () {
-    return {
-      grafts: []
-    }
+  props: {
+    grafts: {
+      type: Array,
+      required: false
+    },
   },
 }

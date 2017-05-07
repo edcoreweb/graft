@@ -12,10 +12,7 @@ export default {
         </h3>
       </div>
       <div class="panel-body">
-        <slot name="content"></slot>
-        <slot name="grafts">
-          <g-renderer v-for="graft in grafts" :key="graft.name" :config="graft"></g-renderer>
-        </slot>
+        <slot></slot>
       </div>
     </div>
   `
