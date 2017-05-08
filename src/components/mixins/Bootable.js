@@ -15,5 +15,10 @@ export default {
         this.booted = true;
       }
     })
+
+    // fire every time we are done updating the component
+    this.$on('hook:updated', function () {
+      this.fireEvent(new Event('updated'))
+    })
   }
 }

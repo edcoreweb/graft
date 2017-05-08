@@ -63,7 +63,6 @@ export default {
   },
 
   mounted () {
-    console.log($(this.$el))
     this.$modal = $(this.$el)
     this.initializeModal()
   },
